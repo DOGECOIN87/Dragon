@@ -62,8 +62,8 @@ Updates
 </h1>
 <p>
 <u>19/08/2024</u><br>
-    - General logic fixes.<br>
-    - Thread cap of 100.
+- General logic fixes.<br>
+- Thread cap of 100.
 </p>
 
 <br><br>
