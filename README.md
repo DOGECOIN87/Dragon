@@ -7,9 +7,13 @@
 </p>
 
 <h1 align="left">
-Bundle Checker
+Bundle Checker - Check if a Solana contract has had multiple buys bundled into one transaction.
 </h1>
 <p>
-1. aaa<br>
-2. bbb<br>
+1. Input a contract address.
+2. Receive the bundle data.
 </p>
+
+<h1 align="left">
+Bulk Wallet Checker
+</h1>
