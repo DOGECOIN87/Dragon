@@ -151,9 +151,7 @@ while True:
 
         elif optionsInput == 5:
             print(f"[🐲] Thank you for using Dragon.")
-            break  # Exit the outer loop to end the program
+            break 
 
     except ValueError:
         print("[🐲] Invalid input.")
-
-
