@@ -9,9 +9,9 @@
 <h1 align="left">
 Bundle Checker 
 </h1>
-<p>Purpose - Check if a Solana contract has had multiple buys bundled into one transaction.</p>
+<p>Check if a Solana contract has had multiple buys bundled into one transaction.</p>
 <p>
-1. Input a contract address.
+1. Input a contract address.<br>
 2. Receive the bundle data.
 </p>
 
