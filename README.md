@@ -56,3 +56,10 @@ All Transaction Scan
 2. Enter the amount of threads you'd like to use.
 3. Wait and receive your wallet addresses.
 </p>
+
+<h1 align="left">
+Credits
+</h1>
+<a href="https://github.com/1f1n">
+Me
+</a>
