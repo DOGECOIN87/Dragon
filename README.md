@@ -10,7 +10,7 @@
 Setup
 </h1>
 
-`py
+`
 pip install -r requirements.txt
 `
 
