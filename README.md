@@ -1,6 +1,6 @@
 <h1 align="center">
 	<img src="https://i.imgur.com/Ok56fSu.png" width="150px"><br>
-    Dragon
+    Dragon - Coming Soon
 </h1>
 <p align="center">
 	The all-in-one tool to help you find profitable wallets on Solana.
@@ -11,7 +11,7 @@ Bundle Checker
 </h1>
 <p>Check if a Solana contract has had multiple buys bundled into one transaction.</p>
 <p>
-1. Input a contract address.<br>
+1. Enter a contract address.<br>
 2. Receive the bundle data.
 </p>
 
@@ -24,4 +24,23 @@ Bulk Wallet Checker
 2. Enter the amount of threads you'd like to use.
 3. Enter whether you'd like to skip certain wallets.
 4. Receive your wallet data.
+</p>
+
+<h1 align="left">
+Top Traders Scraper
+</h1>
+<p>Scrape the top 100 traders of Solana tokens to receive their PnL, winrate and more data.</p>
+<p>
+1. Enter the amount of threads you'd like to use.
+2. Receive your top traders data.
+</p>
+
+<h1 align="left">
+All Transaction Scan
+</h1>
+<p>Grab every single wallet address that made a buy transaction of a Solana token. I do not recommend a large market cap token.</p>
+<p>
+1. Enter a contract address. 
+2. Enter the amount of threads you'd like to use.
+3. Wait and receive your wallet addresses.
 </p>
