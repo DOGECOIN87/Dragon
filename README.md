@@ -9,7 +9,9 @@
 <h1 align="left">
 Setup
 </h1>
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 <h1 align="left">
 Bundle Checker 
