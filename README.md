@@ -6,12 +6,13 @@
 	The all-in-one tool to help you find profitable wallets on Solana.
 </p>
 
-<h1 align="left">
-Setup
-</h1>
 `py
 pip install -r requirements.txt
 `
+
+<h1 align="left">
+Setup
+</h1>
 
 <h1 align="left">
 Bundle Checker 
