@@ -6,13 +6,9 @@
 	The all-in-one tool to help you find profitable wallets on Solana.
 </p>
 
-<br><br>
-<p align="center">
-How To Use<br><br>
-1.
-2.
-3.
-4.
+<h1 align="left>
+Bundle Checker
+</h1>
 
 
 <p align="center">
