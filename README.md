@@ -13,6 +13,9 @@ Setup
 `
 pip install -r requirements.txt
 `
+`
+python dragon.py
+`
 
 <h1 align="left">
 Bundle Checker 
