@@ -60,6 +60,11 @@ All Transaction Scan
 <h1 align="left">
 Updates
 </h1>
+<p>
+<u>19/08/2024</u>
+- General logic fixes.
+- Thread cap of 100.
+</p>
 
 <br><br>
 <h1 align="left">
