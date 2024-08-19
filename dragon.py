@@ -21,7 +21,7 @@ while True:
             optionsInput = int(input("[❓] Choice > "))
             if optionsInput in [1, 2, 3, 4]:
                 print(f"[🐲] Selected {options[optionsInput - 1]}")
-                break  # Break out of the outer loop if choice is valid
+                break
             else:
                 print("[🐲] Invalid choice.")
     
