@@ -61,7 +61,7 @@ All Transaction Scan
 Updates
 </h1>
 <p>
-<u>19/08/2024</u><br>
+19/08/2024<br>
 - General logic fixes.<br>
 - Thread cap of 100.
 </p>
