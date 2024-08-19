@@ -7,6 +7,11 @@
 </p>
 
 <h1 align="left">
+Setup
+</h1>
+```pip install -r requirements.txt```
+
+<h1 align="left">
 Bundle Checker 
 </h1>
 <p>Check if a Solana contract has had multiple buys bundled into one transaction.</p>
