@@ -1,6 +1,6 @@
 <h1 align="center">
 	<img src="https://i.imgur.com/Ok56fSu.png" width="150px"><br>
-    Dragon - Coming Soon
+    Dragon
 </h1>
 <p align="center">
 	The all-in-one tool to help you find profitable wallets on Solana.
