@@ -57,6 +57,7 @@ All Transaction Scan
 3. Wait and receive your wallet addresses.
 </p>
 
+<br><br>
 <h1 align="left">
 Credits
 </h1>
