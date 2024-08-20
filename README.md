@@ -65,6 +65,10 @@ Updates
 - General logic fixes.<br>
 - Thread cap of 100.
 </p>
+<p>
+20/08/2024<br>
+- Added backup requests using cloudscraper, please reinstall requirements.txt & reclone the repo.
+</p>
 
 <br><br>
 <h1 align="left">
