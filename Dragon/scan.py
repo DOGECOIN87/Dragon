@@ -1,4 +1,5 @@
 import tls_client
+import cloudscraper
 import concurrent.futures
 from threading import Lock
 
@@ -6,6 +7,7 @@ class ScanAllTx:
 
     def __init__(self):
         self.sendRequest = tls_client.Session(client_identifier='chrome_103')
+        self.cloudScraper = cloudscraper.create_scraper()
         self.shorten = lambda s: f"{s[:4]}...{s[-5:]}" if len(s) >= 9 else s
         self.lock = Lock()
 
@@ -15,9 +17,14 @@ class ScanAllTx:
             data = response['data']['history']
             paginator = response['data'].get('next')
             return data, paginator
-        except Exception as e:
-            print(f"Error in request for URL {url}: {e}")
-            return [], None
+        except Exception:
+            print(f"[🐲] Error fetching data, trying backup..")
+        finally:
+            response = self.cloudScraper.get(url).json()
+            data = response['data']['history']
+            paginator = response['data'].get('next')
+            return data, paginator
+            
 
     def getAllTxMakers(self, contractAddress: str, threads: int):
         base_url = f"https://gmgn.ai/defi/quotation/v1/trades/sol/{contractAddress}?limit=100"

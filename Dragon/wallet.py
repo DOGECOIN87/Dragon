@@ -1,5 +1,6 @@
 import csv
 import tls_client
+import cloudscraper
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -7,6 +8,7 @@ class BulkWalletChecker:
 
     def __init__(self):
         self.sendRequest = tls_client.Session(client_identifier='chrome_103')
+        self.cloudScraper = cloudscraper.create_scraper()
         self.shorten = lambda s: f"{s[:4]}...{s[-5:]}" if len(s) >= 9 else s
         self.skippedWallets = 0
         self.results = []
@@ -15,9 +17,11 @@ class BulkWalletChecker:
         url = f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=7d"
         try:
             response = self.sendRequest.get(url)
-        except tls_client.exceptions.TLSClientExeption as e:
-            print(f"Request failed: {e} - {wallet}")
-            return None
+        except Exception as e:
+            print(f"[🐲] Error fetching data, trying backup..")
+        finally:
+            response = self.cloudScraper.get(url)
+
 
         if response.status_code == 200:
             data = response.json()
@@ -35,9 +39,12 @@ class BulkWalletChecker:
                         try:
                             winrate_30data = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d").json()['data']
                             winrate_30d = f"{winrate_30data['winrate'] * 100:.2f}%" if winrate_30data['winrate'] is not None else "?"
-                        except tls_client.exceptions.TLSClientExeption as e:
-                            print(f"Request failed: {e} - {wallet}")
-                            winrate_30d = "?"
+                        except Exception as e:
+                            print(f"[🐲] Error fetching data, trying backup..")
+                        finally:
+                            winrate_30data = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d").json()['data']
+                            winrate_30d = f"{winrate_30data['winrate'] * 100:.2f}%" if winrate_30data['winrate'] is not None else "?"
+
 
                         try:
                             tags = data['tags'] 
@@ -82,9 +89,9 @@ class BulkWalletChecker:
         result_dict = {result.pop('wallet'): result for result in self.results}
 
         identifier = self.shorten(list(result_dict)[0])
-        filename = f"walletData_{identifier}.csv"
+        filename = f"{identifier}.csv"
 
-        path = f"Dragon/data/BulkWallet{filename}.csv"
+        path = f"Dragon/data/BulkWallet/wallets_{filename}"
 
         with open(path, 'w', newline='') as outfile:
             writer = csv.writer(outfile)

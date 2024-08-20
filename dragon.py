@@ -21,7 +21,7 @@ while True:
             optionsInput = int(input("[❓] Choice > "))
             if optionsInput in [1, 2, 3, 4]:
                 print(f"[🐲] Selected {options[optionsInput - 1]}")
-                break  # Break out of the outer loop if choice is valid
+                break 
             else:
                 print("[🐲] Invalid choice.")
     
@@ -41,6 +41,7 @@ while True:
         elif optionsInput == 2:
             if len(getTxtFiles) < 2:
                 print("[🐲] No files available.")
+                continue 
 
             print(f"\n{getTxtFiles[0]}\n")
 
@@ -59,11 +60,13 @@ while True:
                                     wallets = f.read().splitlines()
                                 if wallets and wallets != []:
                                     print(f"[🐲] Loaded {len(wallets)}")
+                                    break 
                                 else:
                                     print(f"[🐲] Error occurred, file may be empty.")
                                     continue
                             except Exception as e:
                                 print(f"[🐲] File directory not found.")
+                                continue
                     else:
                         print(f"[🐲] Selected {getTxtFiles[1][fileSelectionOption - 1]}")
                         fileDirectory = getTxtFiles[1][fileSelectionOption - 1]
@@ -72,42 +75,51 @@ while True:
                             wallets = f.read().splitlines()
                         if wallets and wallets != []:
                             print(f"[🐲] Loaded {len(wallets)} wallets")
+                            break 
                         else:
                             print(f"[🐲] Error occurred, file may be empty.")
-                            continue
+                            continue 
 
-                    while True:
-                        threads = input("[❓] Threads > ")
-                        try:
-                            threads = int(threads)
-                        except ValueError:
+                while True:
+                    threads = input("[❓] Threads > ")
+                    try:
+                        threads = int(threads)
+                        if threads > 100:
+                            print(f"[🐲] Do not use more than 100 threads. Automatically set threads to 40.")
                             threads = 40
-                            print(f"[🐲] Invalid input. Defaulting to 40 threads.")
+                    except ValueError:
+                        threads = 40
+                        print(f"[🐲] Invalid input. Defaulting to 40 threads.")
                         break
-                    while True:
+                    break
+
+                while True:
+                    skipWallets = False
+                    skipWalletsInput = input("[❓] Skip wallets with no 7d or 30d PnL data? (Y/N) > ")
+
+                    if skipWalletsInput.upper() not in ["Y", "N"]:
+                        print("[🐲] Invalid input.")
+                        continue 
+                    if skipWalletsInput.upper() == "N":
                         skipWallets = False
-                        skipWalletsInput = input("[❓] Skip wallets with no 7d or 30d PnL data? (Y/N) > ")
-
-                        if skipWalletsInput.upper() not in ["Y", "N"]:
-                            print("[🐲] Invalid input.")
-                        if skipWalletsInput.upper() == "N":
-                            skipWallets = False
-                        else:
-                            skipWallets = True
-                        walletData = walletCheck.fetchWalletData(wallets, threads=threads, skipWallets=skipWallets)
-                        break
-
+                    else:
+                        skipWallets = True
+                    walletData = walletCheck.fetchWalletData(wallets, threads=threads, skipWallets=skipWallets)
+                    break  
 
             except IndexError:
                 print("[🐲] File choice out of range.")
             except ValueError:
                 print("[🐲] Invalid input.")
-
+            continue 
         elif optionsInput == 3:
             while True:
                 threads = input("[❓] Threads > ")
                 try:
                     threads = int(threads)
+                    if threads > 100:
+                        print(f"[🐲] Do not use more than 100 threads. Automatically set threads to 40.")
+                        threads = 40
                 except ValueError:
                     threads = 40
                     print(f"[🐲] Invalid input. Defaulting to 40 threads.")
@@ -115,13 +127,12 @@ while True:
             with open('Dragon/data/TopTraders/tokens.txt', 'r') as fp:
                 contractAddresses = fp.read().splitlines()
                 if contractAddresses and contractAddresses != []:
-                    print(f"[🐲] Loaded {len(contractAddresses)} contract ddresses")
+                    print(f"[🐲] Loaded {len(contractAddresses)} contract addresses")
                 else:
                     print(f"[🐲] Error occurred, file may be empty.")
                     print(f"\n{optionsChoice}\n")
                     continue
                     
-                
                 data = topTraders.topTraderData(contractAddresses, threads)
                 break
 
@@ -139,6 +150,9 @@ while True:
 
                 try:
                     threads = int(threads)
+                    if threads > 100:
+                        print(f"[🐲] Do not use more than 100 threads. Automatically set threads to 40.")
+                        threads = 40
                 except ValueError:
                     threads = 40 
                     print(f"[🐲] Invalid input. Defaulting to 40 threads.")
@@ -151,9 +165,9 @@ while True:
 
         elif optionsInput == 5:
             print(f"[🐲] Thank you for using Dragon.")
-            break  # Exit the outer loop to end the program
+            break
 
-    except ValueError:
+    except ValueError as e:
         print("[🐲] Invalid input.")
 
 
