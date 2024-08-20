@@ -1,5 +1,6 @@
 import json
 import tls_client
+import cloudscraper
 
 class BundleFinder:
 
@@ -7,6 +8,7 @@ class BundleFinder:
         self.txHashes = set()
         self.formatTokens = lambda x: float(x) / 1_000_000
         self.sendRequest = tls_client.Session(client_identifier='chrome_103')
+        self.cloudScraper = cloudscraper.create_scraper()
         self.shorten = lambda s: f"{s[:4]}...{s[-5:]}" if len(s) >= 9 else "?"
     
     def prettyPrint(self, bundleData: dict, contractAddress: str):
@@ -47,7 +49,13 @@ class BundleFinder:
     def teamTrades(self, contractAddress):
         url = f"https://gmgn.ai/defi/quotation/v1/trades/sol/{contractAddress}?limit=100&maker=&tag%5B%5D=creator&tag%5B%5D=dev_team"
 
-        info = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}").json()['data']['token']
+        try:
+            info = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}").json()['data']['token']
+        except Exception:
+            print("[] Error fetching data, trying backup..")
+        finally:
+            info = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}").json()['data']['token']
+
 
         if info['launchpad'].lower() == "pump.fun":
             totalSupply = 1000000000
@@ -84,7 +92,7 @@ class BundleFinder:
             try:
                 response = self.sendRequest.get(url).json().get('result', {}).get('data', [])
             except Exception as e:
-                print(f"Error fetching transaction data for {txHash}: {e}")
+                print(f"[🐲] Error fetching transaction data for {txHash}")
                 continue
 
             if isinstance(response, list):

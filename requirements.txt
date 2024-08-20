@@ -1,3 +1,4 @@
 tls_client
 colorama
 typing_extensions
+cloudscraper

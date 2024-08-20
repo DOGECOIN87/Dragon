@@ -1,5 +1,6 @@
 import csv
 import tls_client
+import cloudscraper
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
@@ -8,6 +9,7 @@ class TopTraders:
 
     def __init__(self):
         self.sendRequest = tls_client.Session(client_identifier='chrome_103')
+        self.cloudScraper = cloudscraper.create_scraper()
         self.shorten = lambda s: f"{s[:4]}...{s[-5:]}" if len(s) >= 9 else s
         self.allData = {}
         self.allAddresses = set()
@@ -19,22 +21,24 @@ class TopTraders:
         try:
             response = self.sendRequest.get(url)
             return response.json().get('data', [])
-        except tls_client.exceptions.TLSClientExeption as e:
-            print(f"[🐲] Error fetching data for {contractAddress}")
-            return []
-        
+        except Exception:
+            print(f"[🐲] Error fetching data, trying backup..")
+        finally:
+            response = self.cloudScraper.get(url)
+            return response.json().get('data', [])
+                   
     def topTraderData(self, contractAddresses, threads):
-
         with ThreadPoolExecutor(max_workers=threads) as executor:
             futures = {executor.submit(self.fetchTopTraders, address): address for address in contractAddresses}
             
             for future in as_completed(futures):
                 contract_address = futures[future]
                 response = future.result()
+
                 
                 self.allData[contract_address] = {}
                 self.totalTraders += len(response)
-                
+
                 for top_trader in response:
                     address = top_trader['address']
                     self.addressFrequency[address] += 1 

@@ -111,10 +111,7 @@ while True:
                 print("[🐲] File choice out of range.")
             except ValueError:
                 print("[🐲] Invalid input.")
-            
             continue 
-
-
         elif optionsInput == 3:
             while True:
                 threads = input("[❓] Threads > ")
@@ -130,13 +127,12 @@ while True:
             with open('Dragon/data/TopTraders/tokens.txt', 'r') as fp:
                 contractAddresses = fp.read().splitlines()
                 if contractAddresses and contractAddresses != []:
-                    print(f"[🐲] Loaded {len(contractAddresses)} contract ddresses")
+                    print(f"[🐲] Loaded {len(contractAddresses)} contract addresses")
                 else:
                     print(f"[🐲] Error occurred, file may be empty.")
                     print(f"\n{optionsChoice}\n")
                     continue
                     
-                
                 data = topTraders.topTraderData(contractAddresses, threads)
                 break
 
@@ -171,5 +167,5 @@ while True:
             print(f"[🐲] Thank you for using Dragon.")
             break
 
-    except ValueError:
+    except ValueError as e:
         print("[🐲] Invalid input.")
