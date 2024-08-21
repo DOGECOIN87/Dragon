@@ -1,6 +1,9 @@
 import csv
 import tls_client
 import cloudscraper
+from fake_useragent import UserAgent
+
+ua = UserAgent(os='linux', browsers=['firefox'])
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
@@ -17,14 +20,18 @@ class TopTraders:
         self.totalTraders = 0
 
     def fetchTopTraders(self, contractAddress: str):
+        print(ua.random)
+        headers = {
+            "User-Agent": ua.random
+        }
         url = f"https://gmgn.ai/defi/quotation/v1/tokens/top_traders/sol/{contractAddress}?orderby=profit&direction=desc"
         try:
-            response = self.sendRequest.get(url)
+            response = self.sendRequest.get(url, headers=headers)
             return response.json().get('data', [])
         except Exception:
             print(f"[🐲] Error fetching data, trying backup..")
         finally:
-            response = self.cloudScraper.get(url)
+            response = self.cloudScraper.get(url, headers=headers)
             return response.json().get('data', [])
                    
     def topTraderData(self, contractAddresses, threads):
@@ -84,3 +91,4 @@ class TopTraders:
         print(f"[🐲] Saved {len(self.allAddresses)} top trader addresses to topTraders_{identifier}.csv")
         print(f"[🐲] Saved {len(repeatedAddresses)} repeated addresses to repeatedTopTraders_{identifier}.txt")
 
+        return
