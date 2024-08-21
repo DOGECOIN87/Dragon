@@ -1,10 +1,9 @@
 import json
 import tls_client
 import cloudscraper
-
 from fake_useragent import UserAgent
 
-ua = UserAgent()
+ua = UserAgent(os='linux', browsers=['firefox'])
 
 class BundleFinder:
 
@@ -53,14 +52,16 @@ class BundleFinder:
     def teamTrades(self, contractAddress):
         url = f"https://gmgn.ai/defi/quotation/v1/trades/sol/{contractAddress}?limit=100&maker=&tag%5B%5D=creator&tag%5B%5D=dev_team"
         
-        h = {"User-Agent": ua.random}
+        headers = {
+            "User-Agent": ua.random
+        }
 
         try:
-            info = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}", headers=h).json()['data']['token']
+            info = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}", headers=headers).json()['data']['token']
         except Exception:
             print("[🐲] Error fetching data, trying backup..")
         finally:
-            info = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}", headers=h).json()['data']['token']
+            info = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/tokens/sol/{contractAddress}", headers=headers).json()['data']['token']
 
 
         if info['launchpad'].lower() == "pump.fun":
@@ -69,7 +70,7 @@ class BundleFinder:
             totalSupply = info['total_supply']
         
         try:
-            response = self.sendRequest.get(url, headers=h).json()['data']['history']
+            response = self.sendRequest.get(url, headers=headers).json()['data']['history']
         except Exception as e:
             print(f"Error fetching trades: {e}")
             return self.txHashes

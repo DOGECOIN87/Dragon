@@ -1,8 +1,10 @@
 import csv
 import tls_client
 import cloudscraper
-
+from fake_useragent import UserAgent
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+ua = UserAgent(os='linux', browsers=['firefox'])
 
 class BulkWalletChecker:
 
@@ -15,12 +17,15 @@ class BulkWalletChecker:
     
     def getWalletData(self, wallet: str, skipWallets: bool):
         url = f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=7d"
+        headers = {
+            "User-Agent": ua.random
+        }
         try:
-            response = self.sendRequest.get(url)
+            response = self.sendRequest.get(url, headers=headers)
         except Exception as e:
             print(f"[🐲] Error fetching data, trying backup..")
         finally:
-            response = self.cloudScraper.get(url)
+            response = self.cloudScraper.get(url, headers=headers)
 
 
         if response.status_code == 200:
@@ -37,12 +42,12 @@ class BulkWalletChecker:
                         winrate_7d = f"{data['winrate'] * 100:.2f}%" if data['winrate'] is not None else "?"
                         
                         try:
-                            winrate_30data = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d").json()['data']
+                            winrate_30data = self.sendRequest.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d", headers=headers).json()['data']
                             winrate_30d = f"{winrate_30data['winrate'] * 100:.2f}%" if winrate_30data['winrate'] is not None else "?"
                         except Exception as e:
                             print(f"[🐲] Error fetching data, trying backup..")
                         finally:
-                            winrate_30data = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d").json()['data']
+                            winrate_30data = self.cloudScraper.get(f"https://gmgn.ai/defi/quotation/v1/smartmoney/sol/walletNew/{wallet}?period=30d", headers=headers).json()['data']
                             winrate_30d = f"{winrate_30data['winrate'] * 100:.2f}%" if winrate_30data['winrate'] is not None else "?"
 
 

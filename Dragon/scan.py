@@ -1,7 +1,10 @@
 import tls_client
 import cloudscraper
 import concurrent.futures
+from fake_useragent import UserAgent
 from threading import Lock
+
+ua = UserAgent(os='linux', browsers=['firefox'])
 
 class ScanAllTx:
 
@@ -12,15 +15,18 @@ class ScanAllTx:
         self.lock = Lock()
 
     def request(self, url: str):
+        headers = {
+            "User-Agent": ua.random
+        }
         try:
-            response = self.sendRequest.get(url).json()
+            response = self.sendRequest.get(url, headers=headers).json()
             data = response['data']['history']
             paginator = response['data'].get('next')
             return data, paginator
         except Exception:
             print(f"[🐲] Error fetching data, trying backup..")
         finally:
-            response = self.cloudScraper.get(url).json()
+            response = self.cloudScraper.get(url, heaers=headers).json()
             data = response['data']['history']
             paginator = response['data'].get('next')
             return data, paginator
@@ -30,6 +36,10 @@ class ScanAllTx:
         base_url = f"https://gmgn.ai/defi/quotation/v1/trades/sol/{contractAddress}?limit=100"
         paginator = None
         urls = []
+
+        headers = {
+            "User-Agent": ua.random
+        }
         
         print(f"[🐲] Starting... please wait.\n")
 
@@ -37,7 +47,12 @@ class ScanAllTx:
             url = f"{base_url}&cursor={paginator}" if paginator else base_url
             urls.append(url)
             
-            response = self.sendRequest.get(url).json()
+            try:
+                response = self.sendRequest.get(url, headers=headers).json()
+            except Exception:
+                print(f"[🐲] Error fetching data, trying backup..")
+            finally:
+                response = self.cloudScraper.get(url, headers=headers).json()
             paginator = response['data'].get('next')
 
             if not paginator:
