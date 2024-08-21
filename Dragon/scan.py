@@ -26,7 +26,7 @@ class ScanAllTx:
         except Exception:
             print(f"[🐲] Error fetching data, trying backup..")
         finally:
-            response = self.cloudScraper.get(url, heaers=headers).json()
+            response = self.cloudScraper.get(url, headers=headers).json()
             data = response['data']['history']
             paginator = response['data'].get('next')
             return data, paginator
