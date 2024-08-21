@@ -2,11 +2,10 @@ import csv
 import tls_client
 import cloudscraper
 from fake_useragent import UserAgent
-
-ua = UserAgent(os='linux', browsers=['firefox'])
-
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
+
+ua = UserAgent(os='linux', browsers=['firefox'])
 
 class TopTraders:
 
