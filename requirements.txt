@@ -1,4 +1,5 @@
-tls_client
 colorama
-typing_extensions
+tls_client
 cloudscraper
+fake_useragent
+typing_extensions
