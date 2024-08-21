@@ -69,6 +69,11 @@ Updates
 20/08/2024<br>
 - Added backup requests using cloudscraper, please reinstall requirements.txt & reclone the repo.
 </p>
+<p>
+21/08/2024<br>
+- General logic fixes.<br>
+- Added random user agent generator to all requests, please reinstall requirements.txt & reclone the repo.
+</p>
 
 <br><br>
 <h1 align="left">
