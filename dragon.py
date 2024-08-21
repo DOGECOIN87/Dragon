@@ -134,8 +134,8 @@ while True:
                     continue
                     
                 data = topTraders.topTraderData(contractAddresses, threads)
-                break
 
+            print(f"\n{utils.choices()[1]}\n")
         elif optionsInput == 4:
             while True:
                 contractAddress = input("[❓] Contract Address > ")
@@ -168,4 +168,6 @@ while True:
             break
 
     except ValueError as e:
+        print("[🐲] Error occured. Please retry.")
+        print(f"\n{utils.choices()[1]}\n")
         print("[🐲] Invalid input.")
