@@ -170,6 +170,4 @@ while True:
     except ValueError as e:
         print("[🐲] Error occured. Please retry.")
         print(f"\n{utils.choices()[1]}\n")
-
-
-
+        print("[🐲] Invalid input.")
